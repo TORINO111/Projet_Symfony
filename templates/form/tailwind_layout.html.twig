@@ -1,0 +1,38 @@
+{# templates/form/tailwind_layout.html.twig #}
+
+{% block form_row %}
+    <div class="mb-4">
+        {{ form_label(form, null, { 'label_attr': { 'class': 'block text-gray-700 font-bold mb-2' } }) }}
+        <div>
+            {{ form_widget(form, { 'attr': { 'class': 'shadow appearance-none border rounded max-w-lg py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' } }) }}
+        </div>
+        {{ form_errors(form) }}
+    </div>
+{% endblock %}
+
+
+{% block form_label %}
+    {% if label is not same as(false) %}
+        <label {{ block('widget_attributes') }} class="block text-gray-700 font-bold mb-2">
+            {{ label|trans({}, translation_domain) }}
+        </label>
+    {% endif %}
+{% endblock %}
+
+{% block form_errors %}
+    {% if errors|length > 0 %}
+        <div class="text-red-500 text-sm mt-1">
+            {{ errors|first.message }} {# Affiche le premier message d'erreur #}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block form_widget_simple %}
+    {% if form.vars.block_prefixes[1] == 'checkbox' %}
+        <input type="checkbox" id="{{ form.vars.id }}" {{ block('widget_attributes') }} value="1" {% if value %}checked{% endif %} />
+        <label for="{{ form.vars.id }}" class="custom-checkbox"></label>
+    {% else %}
+        <input type="{{ form.vars.block_prefixes[1] }}" {{ block('widget_attributes') }} value="{{ value }}" class="shadow appearance-none border rounded max-w-lg py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+    {% endif %}
+{% endblock %}
+

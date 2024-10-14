@@ -1,0 +1,28 @@
+{# templates/client/search.html.twig #}
+
+<h1>Search Clients</h1>
+
+{{ form_start(form) }}
+    <div>
+        {{ form_row(form.surname) }}
+    </div>
+    <div>
+        {{ form_row(form.telephone) }}
+    </div>
+    <div>
+        {{ form_row(form.hasUser) }}
+    </div>
+    <button type="submit">Search</button>
+{{ form_end(form) }}
+
+<h2>Results</h2>
+
+{% if clients is not empty %}
+    <ul>
+        {% for client in clients %}
+            <li>{{ client.surname }} - {{ client.telephone }} - {% if client.user %}Has User{% else %}No User{% endif %}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No clients found matching your criteria.</p>
+{% endif %}

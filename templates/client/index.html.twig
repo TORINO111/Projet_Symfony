@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion Client{% endblock %}
+
+{% block body %}
+    <header class="bg-cyan-800 text-white p-4">
+        <h1 class="text-center text-xl font-bold">Clients</h1>
+    </header>
+
+    <div class="flex min-h-screen">
+
+        <!-- Sidebar -->
+        <aside class="bg-gray-200 w-1/6 p-4">
+            <nav>
+                <ul class="space-y-2">
+                    <li><a href="#" class="block p-2 bg-cyan-600 text-white rounded">Accueil</a></li>
+                    <li><a href="#" class="block p-2 bg-gray-500 text-white rounded">Menu 2</a></li>
+                    <li><a href="#" class="block p-2 bg-gray-500 text-white rounded">Menu 3</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Formulaire et liste -->
+        <main class="flex-grow flex flex-col md:flex-row">
+            <!-- Formulaire de recherche -->
+<section class="bg-brown p-4 w-full md:w-3/4 md:mr-4 mt-4 md:mt-0">
+    <h2 class="text-lg font-bold mb-4">Recherche Clients</h2>
+    {{ form_start(form) }}
+    <div>
+        {{ form_row(form.surname) }}
+        {{ form_row(form.telephone) }}
+        <div class="flex items-center mb-4">
+            {{ form_row(form.hasUser) }}
+        </div>
+    </div>
+    
+    
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Rechercher</button>
+    {{ form_end(form) }}
+</section>
+
+            <!-- Liste des clients -->
+            <section class="bg-white p-4 w-full md:w-3/4 md:mr-4 mt-4 md:mt-0">
+                <h2 class="text-lg font-bold mb-4">Liste des Clients</h2>
+                <a href="{{ path('clients.store') }}">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md mb-4">Créer un Client</button>
+                </a>
+
+                <div class="flex flex-col">
+                    <table class="table-auto w-full">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-2">Image</th>
+                                <th class="px-4 py-2">Surname CLient</th>
+                                <th class="px-4 py-2">Nom</th>
+                                <th class="px-4 py-2">Prénom</th>
+                                <th class="px-4 py-2">Adresse</th>
+                                <th class="px-4 py-2">Téléphone</th>
+                                <th class="px-4 py-2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for client in clients %}
+                            <tr>
+                                <td class="border px-4 py-2">
+                                    <img src="{{ asset('images/image.png') }}" alt="image" class="w-20 h-20 rounded-full">
+                                </td>
+                                <td class="border px-4 py-2">
+                                    {% if client %}
+                                        {{ client.surname }}
+                                    {% endif %}
+                                </td>
+                                <td class="border px-4 py-2">
+                                    {% if client.user %}
+                                        {{ client.user.nom }}
+                                    {% endif %}
+                                </td>
+                                <td class="border px-4 py-2">
+                                    {% if client.user %}
+                                        {{ client.user.prenom }}
+                                    {% endif %}
+                                </td>
+                                <td class="border px-4 py-2">{{ client.adresse }}</td>
+                                <td class="border px-4 py-2">{{ client.telephone }}</td>
+                                <td class="border px-4 py-2">
+                                    <a><button class="bg-green-500 text-white px-4 py-2 rounded-md">Dettes</button></a>
+                                    <a><button class="bg-red-500 text-white px-4 py-2 rounded-md">Delete</button></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        {% if currentPage > 1 %}
+                            <a href="{{ path('clients.index', { page: currentPage - 1 }) }}">Précédent</a>
+                        {% endif %}
+
+                        {% for i in 1..totalPages %}
+                            <a href="{{ path('clients.index', { page: i }) }}"
+                            class="{% if i == currentPage %}active{% endif %}">{{ i }}</a>
+                        {% endfor %}
+
+                        {% if currentPage < totalPages %}
+                            <a href="{{ path('clients.index', { page: currentPage + 1 }) }}">Suivant</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+{% endblock %}
+
+{% block js %}
+<script>
+    document.ge
+    tElementById('selectAllButton').addEventListener('click', function() {
+        const hasUserCheckbox = document.getElementById('client_search_hasUser');
+        hasUserCheckbox.checked = !hasUserCheckbox.checked; // Alterne l'état de la case
+    });
+</script>
+{% endblock %}
