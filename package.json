@@ -1,11 +1,15 @@
 {
   "devDependencies": {
+    "@symfony/webpack-encore": "^5.0.1",
     "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.47"
+    "postcss": "^8.4.47",
+    "postcss-loader": "^8.1.0",
+    "webpack-notifier": "^1.15.0"
   },
   "scripts": {
-    "build:css": "postcss assets/css/tailwind.css -o dist/styles.css",
-    "watch:css": "postcss assets/css/tailwind.css -o dist/styles.css --watch"
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production"
   },
   "dependencies": {
     "tailwindcss": "^3.4.13"
